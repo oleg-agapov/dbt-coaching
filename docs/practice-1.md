@@ -12,6 +12,8 @@
 
 ## Install dbt with duck-db adapter
 
+> First, make sure that you forked the repo and working in your own environment (see main [README.MD](../README.md)).
+
 Create virtual environment:
 
 ```bash

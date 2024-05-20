@@ -1,0 +1,18 @@
+my_dbt_project:
+  outputs:
+    dev:
+      type: duckdb
+      path: dev.duckdb
+      threads: 1
+    
+    snowflake:
+      type: snowflake
+      account: [account_id]
+      user: [username]
+      password: [password]
+      role: [user role]
+      database: [database name]
+      warehouse: [warehouse name]
+      schema: [dbt schema]
+
+  target: dev
