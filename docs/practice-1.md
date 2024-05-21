@@ -293,7 +293,7 @@ git add .
 
 **Step 2**. commit changes with the message descibing the changes:
 ```bash
-git commit -m "..." 
+git commit -m "add dbt project files" 
 ```
 
 **Step 3**. push changes to Github repo:
