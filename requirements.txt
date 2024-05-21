@@ -1,4 +1,6 @@
 dbt-core==1.8.0
 dbt-duckdb==1.8.0
+
+# optional
 pandas==2.2.2
 harlequin

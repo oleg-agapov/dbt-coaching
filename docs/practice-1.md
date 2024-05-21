@@ -2,6 +2,8 @@
 
 ## Plan
 
+We gonna create a dbt project from scratch, using local database called DuckDB. There will be a couple of models to start with, so that we can test all the functionality from the session.
+
 1. 🦆 Install dbt with duck-db adapter
 1. 🐣 Bootstrap a new dbt project
 1. ➡️ Upload raw data
@@ -33,9 +35,6 @@ Check if dbt was installed:
 dbt --version
 ```
 
-Starter repository.
-
-
 ## Bootstrap a new dbt project
 
 To create a new dbt project run:
@@ -52,6 +51,8 @@ After that you should see a new folder with the bootstrapped project.
 
 ## Upload raw data
 
+We have sample dataset of bike trips in `/data` folder. Let's create a DuckDB database with that data.
+
 Run Python script to create a database:
 
 ```bash
@@ -61,6 +62,8 @@ python upload_raw_data.py
 This will create DuckDB file called `data.duckdb`.
 
 On the next step we will connect it to the dbt project.
+
+> If you want to re-create the database file from scratch, just delete `data.duckdb` and run the script once again.
 
 ## Connect to the database
 
@@ -72,11 +75,27 @@ code ~/.dbt/profiles.yml
 
 Change path value to the path of the newly created database file:
 
-```
+```yaml
 path: /workspaces/dbt-coaching/data.duckdb
 ```
 
-(See example of Snowflake connection in a sample config at data/profiles.yml)
+Here is example of how to connect to a Snowflake:
+
+```yaml
+my_dbt_project:
+  outputs:
+    dev:
+      type: snowflake
+      account: [account_id]
+      user: [username]
+      password: [password]
+      role: [user role]
+      database: [database name]
+      warehouse: [warehouse name]
+      schema: [dbt schema]
+
+  target: dev
+```
 
 Check that dbt can “talk” to the DB:
 
@@ -85,19 +104,81 @@ cd my_dbt_project
 dbt debug
 ```
 
+You should see something similar:
+```
+03:14:12  Running with dbt=1.8.0
+03:14:12  dbt version: 1.8.0
+03:14:12  python version: 3.10.13
+03:14:12  python path: /workspaces/dbt-coaching/venv/bin/python
+03:14:12  os info: Linux-6.5.0-1019-azure-x86_64-with-glibc2.31
+03:14:12  Using profiles dir at /home/codespace/.dbt
+03:14:12  Using profiles.yml file at /home/codespace/.dbt/profiles.yml
+03:14:12  Using dbt_project.yml file at /workspaces/dbt-coaching/my_dbt_project/dbt_project.yml
+03:14:12  adapter type: duckdb
+03:14:12  adapter version: 1.8.0
+03:14:13  Configuration:
+03:14:13    profiles.yml file [OK found and valid]
+03:14:13    dbt_project.yml file [OK found and valid]
+03:14:13  Required dependencies:
+03:14:13   - git [OK found]
+
+03:14:13  Connection:
+03:14:13    database: data
+03:14:13    schema: main
+03:14:13    path: /workspaces/dbt-coaching/data.duckdb
+03:14:13    config_options: None
+03:14:13    extensions: None
+03:14:13    settings: None
+03:14:13    external_root: .
+03:14:13    use_credential_provider: None
+03:14:13    attach: None
+03:14:13    filesystems: None
+03:14:13    remote: None
+03:14:13    plugins: None
+03:14:13    disable_transactions: False
+03:14:13  Registered adapter: duckdb=1.8.0
+03:14:13    Connection test: [OK connection ok]
+
+03:14:13  All checks passed!
+```
+
+> Important: all the commands from now on you should run from `/my_dbt_project` folder, otherwise you get an error.
+
 ## Define sources and seeds
 
-Create models/sources.yml file and describe bike_trips table.
+First, you can remove `/example` subfolder from `/models`.
+
+Create `models/sources.yml` file and describe `bike_trips` table:
+
+```yaml
+sources:
+  - name: raw_data
+    database: data
+    schema: main
+    tables:
+      - name: bike_trips
+```
 
 Now let’s preview the source with inline query:
 
 ```bash
-dbt show --inline “...”
+dbt show --inline "select * from {{ source('raw_data', 'bike_trips') }}"
 ```
 
-Copy data/countries.csv file to /seeds folder of the dbt project.
+Copy `/data/countries.csv` file to `/seeds` folder of the dbt project.
 
 Create `/seeds/seeds.yml` file with seeds configs:
+
+```yaml
+seeds:
+  - name: countries
+    config:
+      column_types:
+        iso_code: varchar
+        latitude: double
+        longitude: double
+        country_name: varchar
+```
 
 Now you can materialize seed in the DB:
 
@@ -126,7 +207,7 @@ select
     end_lat,
     end_lng,
     member_casual
-from {{ source('raw', 'bike_trips') }}
+from {{ source('raw_data', 'bike_trips') }}
 ```
 
 Next, in our dataset there is info about bike stations. Let's create another model that describes all stations (`bike_stations.sql`):
@@ -174,11 +255,32 @@ To materialize all models in the database you can run:
 dbt run
 ```
 
+To run a specific model, try node selection syntax:
+
+```
+dbt run -s daily_trips
+
+# or with parents
+dbt run -s +daily_trips
+```
+
 You can now preview tables using dbt show command, like this:
 
 ```bash
 dbt show -s bike_stations
 ```
+
+You can change the materialization type from view (default) to table in dbt_project.yml:
+
+```yaml
+...
+
+models:
+  my_dbt_project:
+    +materialized: table
+```
+
+Try to redefine `daily_trips` model back to view using `{{ config() }}` block in the model itself.
 
 ## Commit changes to the repo
 
