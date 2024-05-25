@@ -1,0 +1,6 @@
+sources:
+  - name: raw_data
+    database: data
+    schema: main
+    tables:
+      - name: bike_trips

@@ -1,0 +1,5 @@
+seeds:
+  - name: states
+    config:
+      column_types:
+        state: varchar

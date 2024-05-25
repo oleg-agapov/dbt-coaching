@@ -1,0 +1,8 @@
+seeds:
+  - name: countries
+    config:
+      column_types:
+        iso_code: varchar
+        latitude: double
+        longitude: double
+        country_name: varchar
