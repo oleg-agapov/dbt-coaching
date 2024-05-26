@@ -1,0 +1,7 @@
+models:
+  - name: fact_daily_trips
+    columns:
+      - name: trip_date
+      - name: rideable_type
+      - name: member_casual
+      - name: trips

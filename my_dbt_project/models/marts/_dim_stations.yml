@@ -1,0 +1,5 @@
+models:
+  - name: dim_stations
+    columns:
+      - name: station_id
+      - name: station_name

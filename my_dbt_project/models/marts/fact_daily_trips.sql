@@ -3,5 +3,5 @@ select
     rideable_type,
     member_casual,
     count(ride_id) as trips
-from {{ ref('all_trips') }}
+from {{ ref('stg_bike_trips') }}
 group by all

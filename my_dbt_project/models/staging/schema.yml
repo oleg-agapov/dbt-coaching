@@ -1,0 +1,54 @@
+models:
+  - name: stg_bike_trips
+    description: Table that has all bike trips with recorded start/end of the trip, user status and type of the bycicle
+    columns:
+      - name: ride_id
+        description: Unique identifier of the ride
+        tests:
+          - not_null
+          - unique
+      - name: rideable_type
+        description: Type of the bycicle
+        tests:
+          - accepted_values:
+              values: ['electric_bike', 'classic_bike']
+      - name: started_at
+        description: Timestamp of the ride start
+      - name: ended_at
+        description: Timestamp of the ride end
+      - name: start_station_name
+        description: Name of the station where ride started
+      - name: start_station_id
+        description: ID of the start station
+      - name: end_station_name
+        description: Name of the station where ride ended
+      - name: end_station_id
+        description: ID of the end station
+      - name: start_lat
+        description: Latitude of the start position
+      - name: start_lng
+        description: Longtitude of the start position
+      - name: end_lat
+        description: Latitude of the end position
+      - name: end_lng
+        description: Longtitude of the end position
+      - name: member_casual
+        description: Type of the user (member or casual rider)
+        tests:
+          - accepted_values:
+              values: ['member', 'casual']
+  
+  - name: stg_countries
+    description: Table with ISO codes for countries
+    columns:
+      - name: iso_code
+        description: Country ISO code
+        tests:
+          - not_null
+          - unique
+      - name: latitude
+        description: Latitude of the country
+      - name: longitude
+        description: Longtitude of the country
+      - name: country_name
+        description: Full name of the country
