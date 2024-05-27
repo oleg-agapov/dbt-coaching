@@ -6,6 +6,10 @@
 
 - [Enterprise Data Warehouse](https://handbook.gitlab.com/handbook/business-technology/data-team/platform/edw/) (guide on Dimensional modeing from GitLab)
 
+- [Dimensional modeling](https://docs.getdbt.com/terms/dimensional-modeling) (official docs)
+
+- [Kimbal dimensional modeling](https://docs.getdbt.com/blog/kimball-dimensional-model) (official blog post)
+
 - [Kimball in the context of the modern data warehouse: what's worth keeping, and what's not](https://www.youtube.com/watch?v=3OcS2TMXELU) (talk from dbt conference)
 
 - [How to Audit Your Directed Acyclic Graph (DAG) and Create Modular Data Models](https://www.youtube.com/watch?v=5W6VrnHVkCA) (another **awesome** talk that explains the concept of clean DAG in 20 mins!)
