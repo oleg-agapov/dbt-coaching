@@ -20,6 +20,8 @@
 
 - [Additional configs you could add to your tests](https://docs.getdbt.com/reference/data-test-configs) (official docs)
 
+- [Unit tests](https://docs.getdbt.com/docs/build/unit-tests) (official docs, starting dbt v1.8)
+
 - [Freshness test for your sources](https://docs.getdbt.com/docs/build/sources#snapshotting-source-data-freshness) (official docs)
 
 - [Create dbt Documentation Everyone Loves](https://dbtips.substack.com/p/create-dbt-documentation-everyone) (my post about some dbt docs tricks)
