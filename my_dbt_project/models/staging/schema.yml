@@ -5,8 +5,7 @@ models:
       - name: ride_id
         description: Unique identifier of the ride
         tests:
-          - dbt_utils.not_null_proportion:
-              at_least: 0.90
+          - not_null
           - unique
       - name: rideable_type
         description: Type of the bycicle
