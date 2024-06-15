@@ -104,7 +104,30 @@ Here we set a 90% threshold for NULL values. You can test this model as usual:
 dbt test -s stg_bike_trips
 ```
 
-You should see in the output that the test was applied alongside with build-in tests.
+You should see in the output that the test was applied alongside with build-in tests:
+
+```bash
+18:50:10  Found 4 models, 7 data tests, 1 seed, 1 source, 523 macros
+18:50:10  
+18:50:10  Concurrency: 1 threads (target='dev')
+18:50:10  
+18:50:10  1 of 5 START test accepted_values_stg_bike_trips_member_casual__member__casual . [RUN]
+18:50:10  1 of 5 PASS accepted_values_stg_bike_trips_member_casual__member__casual ....... [PASS in 0.05s]
+18:50:10  2 of 5 START test accepted_values_stg_bike_trips_rideable_type__electric_bike__classic_bike  [RUN]
+18:50:10  2 of 5 PASS accepted_values_stg_bike_trips_rideable_type__electric_bike__classic_bike  [PASS in 0.03s]
+18:50:10  3 of 5 START test dbt_utils_not_null_proportion_stg_bike_trips_0_9__ride_id .... [RUN]
+18:50:11  3 of 5 PASS dbt_utils_not_null_proportion_stg_bike_trips_0_9__ride_id .......... [PASS in 0.04s]
+18:50:11  4 of 5 START test stg_bike_trips__proper_dates ................................. [RUN]
+18:50:11  4 of 5 PASS stg_bike_trips__proper_dates ....................................... [PASS in 0.02s]
+18:50:11  5 of 5 START test unique_stg_bike_trips_ride_id ................................ [RUN]
+18:50:11  5 of 5 PASS unique_stg_bike_trips_ride_id ...................................... [PASS in 0.04s]
+18:50:11  
+18:50:11  Finished running 5 data tests in 0 hours 0 minutes and 0.31 seconds (0.31s).
+18:50:11  
+18:50:11  Completed successfully
+18:50:11  
+18:50:11  Done. PASS=5 WARN=0 ERROR=0 SKIP=0 TOTAL=5
+```
 
 You can check a list of all macros and tests available for this package [here](https://github.com/dbt-labs/dbt-utils/tree/1.2.0/?tab=readme-ov-file#installation-instructions).
 
