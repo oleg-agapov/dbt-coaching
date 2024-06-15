@@ -14,9 +14,7 @@ Let's work with advanced dbt features to make the project even better!
 Let's make a helper macro that simplifies working with dates. Specifically, it will truncate the provided timestamp to a day granularity. It can be done with SQL like this:
 
 ```sql
-select
-    date_trunc('day', started_at) as start_date
-from {{ ref('stg_bike_trips') }}
+date_trunc('day', timestamp_column)
 ```
 
 To make a macro you first create a file `/macro/truncate_to_day.sql`:
