@@ -20,11 +20,11 @@ date_trunc('day', timestamp_column)
 To make a macro you first create a file `/macro/truncate_to_day.sql`:
 
 ```sql
-{% macro truncate_to_day(col) %}
+{% macro truncate_to_day(col) -%}
     
 date_trunc('day', {{ col }})
 
-{% endmacro %}
+{%- endmacro %}
 ```
 
 Now this macro can be used in models. Let's apply it to `fact_daily_trips` model. Right now it looks like this:
